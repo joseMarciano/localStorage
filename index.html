@@ -1,29 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/css/reset.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BioRhyme&amp;family=Space+Mono&amp;display=swap">
+  <link rel="stylesheet" href="./assets/css/modal.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+    crossorigin="anonymous" />
   <title>Ceep</title>
 </head>
-<body>
-  <div class="app">
-    <div class="todo-list">
-      <h1 class="title">
-        Ceep
-      </h1>
-      
-      <form class="form" action="">
-        <input class="form-input" type="text" data-form-input>
-        <button class="form-button" data-form-button> Novo Item </button>
-      </form>
 
-      <ul class="list" data-list>
-        
-      </ul>
+<body>
+  <header class="header container">
+    <div class="menu-left-icons__header">
+      <span class="menu__header icon">
+        <i class="fas fa-align-justify"></i>
+      </span>
+      <span class="menu__header icon">
+        <i class="fas fa-house-user"></i>
+      </span>
     </div>
-    <script type="module" src="main.js"></script>
+    <div class="menu-right-icons__header">
+      <span class="menu__header icon" data-open-modal>
+        <i class="fas fa-plus"></i>
+      </span>
+      <span class="menu__header icon">
+        <i class="fas fa-bell"></i>
+      </span>
+      <span class="menu__header icon">
+        <i class="fas fa-cogs"></i>
+      </span>
+    </div>
+  </header>
+  <main class="main container">
+    teste
+  </main>
+  <script type="module" src="main.js"></script>
 </body>
+
 </html>

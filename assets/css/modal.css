@@ -1,0 +1,121 @@
+:root {
+    --modal-width: 600px;
+    --modal-height: 350px;
+    --header-height: 2.2rem;
+    --footer-height: 2.2rem;
+}
+
+.block {
+    display: block;
+}
+
+.button {
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem;
+}
+
+.modal-content {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: rgb(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-content.show-modal {
+    display: flex;
+}
+
+@keyframes show-modal {
+    from {
+        transform: translate3d(0,-1000px,0);
+    }
+    to {
+        transform: translate3d(0,0,0);
+
+    }
+}
+
+.show-modal .modal {
+    animation: show-modal 1s;
+}
+
+.modal {
+    background-color: var(--white);
+    width: var(--modal-width);
+    height: var(--modal-height);
+    border-radius: 1rem;
+    box-shadow: 0px 0px 14px 0px var(--grey);
+}
+
+.header__modal {
+    height: var(--header-height);
+    border-radius: 1rem 1rem 0 0;
+    background-color: var(--red-black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem;
+    color: var(--white);
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.main__modal {
+    height: calc((var(--modal-height) - var(--header-height) - var(--footer-height)));
+    padding: 1.5rem
+}
+
+.label__modal {
+    font-size: 1.4rem;
+    margin: 0.2rem 0 0.2rem 0;
+    color: var(--black);
+}
+
+.input__modal {
+    font-family: 'Sriracha', cursive;
+    width: 100%;
+    height: 2rem;
+}
+
+.text-area__modal {
+    font-family: 'Sriracha', cursive;
+    width: 100%;
+    resize: none;
+}
+
+.button-container__modal {
+    margin-top: .5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button--save__modal {
+    width: 10rem;
+    font-family: 'Sriracha', cursive;
+    font-size: 1.2rem;
+    color: var(--white);
+    background: var(--green);
+}
+
+.button--save-new__modal {
+    font-family: 'Sriracha', cursive;
+    font-size: 1.2rem;
+    color: var(--white);
+    background: var(--blue);
+}
+
+.footer__modal {
+    width: 100%;
+    height: var(--footer-height);
+    border-radius: 0 0 1rem 1rem;
+    background-color: var(--red-black);
+}
