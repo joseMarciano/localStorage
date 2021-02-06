@@ -34,11 +34,10 @@
 
 @keyframes show-modal {
     from {
-        transform: translate3d(0,-1000px,0);
+        transform: translate3d(0, -1000px, 0);
     }
     to {
-        transform: translate3d(0,0,0);
-
+        transform: translate3d(0, 0, 0);
     }
 }
 
@@ -72,10 +71,50 @@
     padding: 1.5rem
 }
 
+.container-data-color__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color--container__modal {
+    align-self: flex-start;
+    margin-left: .5rem;
+    width: calc(50% - .5rem);
+}
+
+.color--options__modal {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 2rem;
+}
+
+.color--container__modal .select--color-icon:nth-child(1) {
+    color: var(--purple);
+}
+
+.color--container__modal .select--color-icon:nth-child(2) {
+    color: var(--baby-blue);
+}
+
+.color--container__modal .select--color-icon:nth-child(3) {
+    color: var(--pink);
+}
+
+.color--container__modal .select--color-icon:nth-child(4) {
+    color: var(--orange);
+}
+
 .label__modal {
     font-size: 1.4rem;
     margin: 0.2rem 0 0.2rem 0;
     color: var(--black);
+}
+
+.date--container__modal {
+    margin-right: .5rem;
+    width: calc(50% - .5rem);
 }
 
 .input__modal {
