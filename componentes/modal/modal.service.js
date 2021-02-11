@@ -12,11 +12,11 @@ const TEMPLATE_MODAL = `
         <main class="main__modal">
             <form>
                 <label for="description-modal" class="label__modal block">Descreva o lembrete:</label>
-                <textarea id="description-modal" class="text-area__modal" rows="3"></textarea>
+                <textarea required id="description-modal" class="text-area__modal" data-description rows="3"></textarea>
                 <div class="container-data-color__row">
                     <div class="date--container__modal">
                         <label class="label__modal block">Data:</label>
-                        <input class="input__modal" type="datetime-local">
+                        <input required class="input__modal" data-date type="datetime-local">
                     </div>
                     <div class="color--container__modal">
                         <label class="label__modal block">Cor:</label>
@@ -29,8 +29,8 @@ const TEMPLATE_MODAL = `
                     </div>
                 </div>
                 <div class="button-container__modal">
-                    <button class="button--save__modal button">Salvar</button>
-                    <button class="button--save-new__modal button">Salvar e adicionar novo</button>
+                    <button class="button--save__modal button" data-save-button>Salvar</button>
+                    <button class="button--save-new__modal button" data-save-button="true">Salvar e adicionar novo</button>
                 </div>
             </form>
         </main>
@@ -38,10 +38,28 @@ const TEMPLATE_MODAL = `
     </section>
 `;
 
+const TEMPLATE_CONTENT = (data, description) => {
+    return `  
+    <button type="button" class="button-content__main" data-accordion-button>
+      <label>${data}</label>
+      <i class="fas fa-chevron-right icon" data-accordion-arrow></i>
+    </button>
+    <div class="content__main" data-content>
+      <p  data-content-description>${description}</p>
+      <div class="content--button-options__main">
+        <button type="button" class="button-check__main" data-check-button>
+          <i class="fas fa-check"></i>
+        </button>
+        <button type="button" class="button-trash__main" data-trash-button>
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div>     
+`};
+
 class ModalService {
 
     constructor() {
-        this._lembrete = new Lembrete();
     }
 
     _createModal = () => {
@@ -52,7 +70,8 @@ class ModalService {
         modalContent.innerHTML = TEMPLATE_MODAL;
         body.appendChild(modalContent);
         this._addEventListenerToCloseModal(modalContent, body);
-        this._addEventListenerToAllBtnColors()
+        this._addEventListenerToAllBtnColors();
+        this._addEventListenerToAllButtonSave(modalContent);
     }
 
     _closeModal = (modalContent, body) => {
@@ -72,13 +91,53 @@ class ModalService {
     _addEventListenerToAllBtnColors() {
         const optionsColor = this._getOptionsColor();
         optionsColor.forEach(color => {
-            color.addEventListener('click',this._selectColor);
-        });    
+            color.addEventListener('click', this._selectColor);
+        });
     }
 
-    _getOptionsColor = () =>{
+    _addEventListenerToAllButtonSave(modalContent) {
+        document.querySelectorAll('[data-save-button]')
+            .forEach(button => button.addEventListener('click', this._save));
+    }
+
+    _save = (event) => {
+        event.preventDefault();
+        let description = document.querySelector('[data-description]');
+        let date = document.querySelector('[data-date]');
+        let colorElement = document.querySelector(`[${ATRIBUTE_COLOR_SELECTED}]`);
+        let color = getComputedStyle(colorElement).color;
+        this._renderContent(new Lembrete(date.value, description.value, color));
+
+        if (event.currentTarget.getAttribute('data-save-button') === 'true') {
+            description.value = '';
+            date.value = '';
+
+        } else {
+            const body = document.querySelector('body');
+            const modalContent = document.querySelector('[data-modal-content]');
+            body.removeChild(modalContent);
+        }
+    }
+
+    _renderContent = (lembrete) => {
+        const main = document.querySelector('[data-main-content]');
+        const section = document.createElement('section');
+        section.classList.add('container-content__main');
+        section.setAttribute('data-content-main', '');
+        section.innerHTML = TEMPLATE_CONTENT(lembrete.data, lembrete.description);
+        this._setColorContent(lembrete, section);
+        main.appendChild(section);
+        lembrete.section = section;
+    }
+
+    _setColorContent = (lembrete, section) => {
+        const btn = section.querySelector('[data-accordion-button]');
+        btn.style.backgroundColor = lembrete.color;
+    }
+
+    _getOptionsColor = () => {
         const modalContent = document.querySelector('[data-modal-content]');
-        const optionsParent  = modalContent.querySelector('[data-options-color]');
+        const optionsParent = modalContent.querySelector('[data-options-color]');
         const optionsColor = [];
         for (let i = 0; i < optionsParent.children.length; i++) {
             optionsColor.push(optionsParent.children[i]);
@@ -93,26 +152,26 @@ class ModalService {
         this._addAttrSelectedInCurrent(event.currentTarget);
     }
 
-    _removeIconSelected(){
+    _removeIconSelected() {
         const optionsColor = this._getOptionsColor();
-        optionsColor.forEach((color) =>{
+        optionsColor.forEach((color) => {
             color.classList.remove(ICON_SELECTED);
             color.classList.add(ICON_NOT_SELECTED);
         });
 
     }
 
-    _removeAttrSelected(event){
+    _removeAttrSelected(event) {
         const optionsColor = this._getOptionsColor();
-        optionsColor.forEach((color) =>{
+        optionsColor.forEach((color) => {
             color.removeAttribute(ATRIBUTE_COLOR_SELECTED);
         });
     }
-    _addAttrSelectedInCurrent(currentTarget){
-        currentTarget.setAttribute(ATRIBUTE_COLOR_SELECTED,'');
+    _addAttrSelectedInCurrent(currentTarget) {
+        currentTarget.setAttribute(ATRIBUTE_COLOR_SELECTED, '');
     }
 
-    _changeCurrentIconClicked(currentTarget){
+    _changeCurrentIconClicked(currentTarget) {
         currentTarget.classList.remove(ICON_NOT_SELECTED);
         currentTarget.classList.add(ICON_SELECTED);
     }

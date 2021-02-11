@@ -62,7 +62,10 @@ html {
 }
 
 .main{
-  height: 500px;
+  height: auto;
+  padding: 2rem;
 }
+
+
 
 
