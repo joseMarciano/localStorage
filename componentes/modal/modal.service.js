@@ -1,4 +1,6 @@
 import Lembrete from '../../class/Lembrete.js';
+import RenderUtils from '../renderUtils.js';
+
 const ATRIBUTE_COLOR_SELECTED = 'data-color-selected';
 const ICON_SELECTED = 'fa-tint';
 const ICON_NOT_SELECTED = 'fa-tint-slash';
@@ -38,24 +40,24 @@ const TEMPLATE_MODAL = `
     </section>
 `;
 
-const TEMPLATE_CONTENT = (data, description) => {
-    return `  
-    <button type="button" class="button-content__main" data-accordion-button>
-      <label>${data}</label>
-      <i class="fas fa-chevron-right icon" data-accordion-arrow></i>
-    </button>
-    <div class="content__main" data-content>
-      <p  data-content-description>${description}</p>
-      <div class="content--button-options__main">
-        <button type="button" class="button-check__main" data-check-button>
-          <i class="fas fa-check"></i>
-        </button>
-        <button type="button" class="button-trash__main" data-trash-button>
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </div>
-    </div>     
-`};
+// const TEMPLATE_CONTENT = (data, description) => {
+//     return `  
+//     <button type="button" class="button-content__main" data-accordion-button>
+//       <label>${data}</label>
+//       <i class="fas fa-chevron-right icon" data-accordion-arrow></i>
+//     </button>
+//     <div class="content__main" data-content>
+//       <p  data-content-description>${description}</p>
+//       <div class="content--button-options__main">
+//         <button type="button" class="button-check__main" data-check-button>
+//           <i class="fas fa-check"></i>
+//         </button>
+//         <button type="button" class="button-trash__main" data-trash-button>
+//           <i class="fas fa-trash-alt"></i>
+//         </button>
+//       </div>
+//     </div>     
+// `};
 
 class ModalService {
 
@@ -106,7 +108,11 @@ class ModalService {
         let date = document.querySelector('[data-date]');
         let colorElement = document.querySelector(`[${ATRIBUTE_COLOR_SELECTED}]`);
         let color = getComputedStyle(colorElement).color;
-        this._renderContent(new Lembrete(date.value, description.value, color));
+        const storageLembretes = JSON.parse(localStorage.getItem('lembretes')) || [];
+
+        storageLembretes.push({ date:date.value, description:description.value,color })
+        localStorage.setItem('lembretes', JSON.stringify(storageLembretes));
+        RenderUtils.renderContent(new Lembrete(date.value, description.value, color));
 
         if (event.currentTarget.getAttribute('data-save-button') === 'true') {
             description.value = '';
@@ -119,21 +125,21 @@ class ModalService {
         }
     }
 
-    _renderContent = (lembrete) => {
-        const main = document.querySelector('[data-main-content]');
-        const section = document.createElement('section');
-        section.classList.add('container-content__main');
-        section.setAttribute('data-content-main', '');
-        section.innerHTML = TEMPLATE_CONTENT(lembrete.data, lembrete.description);
-        this._setColorContent(lembrete, section);
-        main.appendChild(section);
-        lembrete.section = section;
-    }
+    // _renderContent = (lembrete) => {
+    //     const main = document.querySelector('[data-main-content]');
+    //     const section = document.createElement('section');
+    //     section.classList.add('container-content__main');
+    //     section.setAttribute('data-content-main', '');
+    //     section.innerHTML = TEMPLATE_CONTENT(lembrete.data, lembrete.description);
+    //     this._setColorContent(lembrete, section);
+    //     main.appendChild(section);
+    //     lembrete.section = section;
+    // }
 
-    _setColorContent = (lembrete, section) => {
-        const btn = section.querySelector('[data-accordion-button]');
-        btn.style.backgroundColor = lembrete.color;
-    }
+    // _setColorContent = (lembrete, section) => {
+    //     const btn = section.querySelector('[data-accordion-button]');
+    //     btn.style.backgroundColor = lembrete.color;
+    // }
 
     _getOptionsColor = () => {
         const modalContent = document.querySelector('[data-modal-content]');

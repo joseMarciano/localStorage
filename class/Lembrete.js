@@ -1,6 +1,6 @@
 class Lembrete {
     constructor(date, description, color) {
-        this._data = date
+        this._data = date;
         this._description = description;
         this._color = color;
         this._section;
@@ -16,7 +16,7 @@ class Lembrete {
     }
 
     get data() {
-        return this._data;
+        return moment(this._data).format('DD/MM/YYYY - h:mm');
     }
 
     set description(description) {
@@ -40,7 +40,7 @@ class Lembrete {
         const arrow = section.querySelector('[data-accordion-arrow]');
         accordionBtn.addEventListener('click', (event) => this._accordion(event, section, arrow));
         checkBtn.addEventListener('click', (event) => this._setChecked(section));
-        trashBtn.addEventListener('click', (event) => this._removeLembrete(section));
+        trashBtn.addEventListener('click', (event) => this._removeLembrete(section, event));
     }
 
     _accordion = (event, section, arrow) => {
@@ -60,7 +60,16 @@ class Lembrete {
         hasRotateClass ? arrow.classList.remove('rotate') : arrow.classList.add('rotate');
     }
 
-    _removeLembrete = (section) => {
+    _removeLembrete = (section, event) => {
+        const childrenMain = document.querySelector('[data-main-content]').children;
+        for (let i = 0; i < childrenMain.length; i++) {
+            if (childrenMain[i] === section) {
+                const storageLembretes = JSON.parse(localStorage.getItem('lembretes')) || [];
+                storageLembretes.splice(i, 1);
+                localStorage.setItem('lembretes', JSON.stringify(storageLembretes));
+            }
+        }
+
         section.classList.add('remove');
         section.addEventListener('transitionend', (event) => {
             section.remove();
